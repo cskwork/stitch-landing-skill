@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="stitch-landing-skill turns a project README into a deployed GitHub Pages landing page in one agent session, using Stitch MCP and a static /docs deliverable." />
+  <meta name="theme-color" content="#0b1020" />
+  <meta property="og:title" content="stitch-landing-skill" />
+  <meta property="og:description" content="README to deployed GitHub Pages landing page, guided by Stitch MCP." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cskwork.github.io/stitch-landing-skill/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>stitch-landing-skill - README to GitHub Pages landing page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070a12;
+      --bg-soft: #0b1020;
+      --panel: #111827;
+      --panel-2: #151f33;
+      --text: #f6f7fb;
+      --muted: #aab3c5;
+      --line: #243044;
+      --primary: #8b5cf6;
+      --primary-2: #22d3ee;
+      --accent: #fbbf24;
+      --ok: #34d399;
+      --danger: #fb7185;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 24px;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.34), transparent 32rem),
+        radial-gradient(circle at 80% 5%, rgba(34, 211, 238, 0.22), transparent 28rem),
+        linear-gradient(180deg, #060912 0%, var(--bg) 46%, #060912 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.75), transparent 80%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    code, pre { font-family: var(--mono); }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 16px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--text);
+      color: var(--bg);
+      z-index: 10;
+    }
+    .skip-link:focus { left: 16px; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 10, 18, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #06101d;
+      font-family: var(--mono);
+      font-weight: 800;
+      box-shadow: 0 12px 30px rgba(34, 211, 238, 0.2);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      font-weight: 700;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.24);
+    }
+
+    .button.primary {
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #06101d;
+    }
+
+    .button:hover { transform: translateY(-1px); }
+
+    header.hero { padding: 86px 0 48px; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.88fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--ok);
+      box-shadow: 0 0 18px rgba(52, 211, 153, 0.8);
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(48px, 8vw, 88px);
+      line-height: 0.95;
+      letter-spacing: -0.075em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, #d7ccff 42%, #9decff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      max-width: 660px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .terminal {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.96), rgba(9, 13, 24, 0.98));
+      box-shadow: var(--shadow);
+    }
+
+    .terminal::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), transparent 38%, rgba(34, 211, 238, 0.09));
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    .dots { display: flex; gap: 8px; }
+    .dots span { width: 10px; height: 10px; border-radius: 50%; display: block; }
+    .dots span:nth-child(1) { background: var(--danger); }
+    .dots span:nth-child(2) { background: var(--accent); }
+    .dots span:nth-child(3) { background: var(--ok); }
+
+    .terminal-body {
+      position: relative;
+      z-index: 1;
+      padding: 24px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.85;
+      color: #dbeafe;
+    }
+
+    .prompt { color: var(--primary-2); }
+    .comment { color: #7d8ca6; }
+    .success { color: var(--ok); }
+    .warn { color: var(--accent); }
+
+    section { padding: 58px 0; }
+    .section-head { max-width: 760px; margin-bottom: 26px; }
+    .section-kicker {
+      margin: 0 0 10px;
+      color: var(--primary-2);
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    h2 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+    }
+    .section-copy {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 100%;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 22px;
+      background: rgba(17, 24, 39, 0.72);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 18px;
+      border-radius: 14px;
+      background: rgba(34, 211, 238, 0.12);
+      color: var(--primary-2);
+      font-family: var(--mono);
+      font-weight: 800;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: phase;
+    }
+
+    .phase {
+      position: relative;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      background: rgba(11, 16, 32, 0.78);
+    }
+
+    .phase::before {
+      counter-increment: phase;
+      content: counter(phase, decimal-leading-zero);
+      display: block;
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .phase strong { display: block; margin-bottom: 8px; }
+    .phase span { color: var(--muted); font-size: 14px; line-height: 1.55; }
+
+    .install-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .code-card pre {
+      margin: 14px 0 0;
+      overflow-x: auto;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.28);
+      color: #dbeafe;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .proof {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .checklist {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .checklist li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .checklist li::before {
+      content: "ok";
+      flex: 0 0 auto;
+      margin-top: 2px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(52, 211, 153, 0.12);
+      color: var(--ok);
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .repo-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(34, 211, 238, 0.1));
+    }
+
+    footer {
+      padding: 46px 0 64px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    .footer-inner a { color: var(--text); font-weight: 700; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .proof { grid-template-columns: 1fr; }
+      .cards, .install-grid { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 28px, 1120px); }
+      header.hero { padding-top: 58px; }
+      .flow { grid-template-columns: 1fr; }
+      .hero-actions .button { width: 100%; }
+      .terminal-body { padding: 18px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav aria-label="Primary navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="stitch-landing-skill home">
+        <span class="brand-mark">SL</span>
+        <span>stitch-landing-skill</span>
+      </a>
+      <div class="nav-links" aria-label="Section links">
+        <a href="#flow">Flow</a>
+        <a href="#install">Install</a>
+        <a href="#verify">Verify</a>
+        <a href="https://github.com/cskwork/stitch-landing-skill">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow"><span class="status-dot"></span>Claude Code / Hermes / Codex skill</div>
+        <h1><span class="gradient-text">README to deployed GitHub Pages</span> in one guided session.</h1>
+        <p class="hero-copy">
+          A reusable skill that reads a project README, runs a Stitch MCP design pass, authors a static
+          <code>docs/index.html</code>, enables GitHub Pages, commits, pushes, and verifies the live URL.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/cskwork/stitch-landing-skill">View on GitHub</a>
+          <a class="button" href="#install">Install the skill</a>
+        </div>
+      </div>
+
+      <div class="terminal" aria-label="Skill execution preview">
+        <div class="terminal-bar">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <span>landing-flow.log</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> read README.md LICENSE docs/*</div>
+          <div><span class="comment"># extract positioning, quickstart, visuals</span></div>
+          <div><span class="prompt">$</span> stitch.generate_screen_from_text</div>
+          <div><span class="success">screen ready:</span> design tokens + HTML reference</div>
+          <div><span class="prompt">$</span> write docs/index.html docs/.nojekyll</div>
+          <div><span class="prompt">$</span> gh api repos/&lt;owner&gt;/&lt;repo&gt;/pages</div>
+          <div><span class="warn">verify:</span> Pages build built + live curl 200</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section aria-labelledby="why-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">What it does</p>
+          <h2 id="why-title">Turns repo context into a shareable landing page.</h2>
+          <p class="section-copy">
+            The skill packages the repeated work behind a polished project homepage: design direction,
+            static HTML, GitHub Pages setup, and proof that the hosted page is actually live.
+          </p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="icon">01</div>
+            <h3>Reuse real copy</h3>
+            <p>Ports README taglines, feature names, quickstart commands, screenshots, license, and repository links instead of inventing marketing text.</p>
+          </article>
+          <article class="card">
+            <div class="icon">02</div>
+            <h3>Design with Stitch MCP</h3>
+            <p>Uses Stitch as the design pass, then extracts useful tokens and structure into a maintainable static page.</p>
+          </article>
+          <article class="card">
+            <div class="icon">03</div>
+            <h3>Ship with proof</h3>
+            <p>Enables Pages from <code>main</code> and <code>/docs</code>, sets the homepage, polls the Pages build, and curls the final URL.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow" aria-labelledby="flow-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">Eight phases</p>
+          <h2 id="flow-title">A repeatable build, host, verify pipeline.</h2>
+        </div>
+        <div class="flow" aria-label="Skill phases">
+          <div class="phase"><strong>Read repo</strong><span>README, license, screenshots, existing Pages files.</span></div>
+          <div class="phase"><strong>Generate design</strong><span>Create a Stitch project and desktop screen from the repo context.</span></div>
+          <div class="phase"><strong>Inspect output</strong><span>Download the Stitch HTML and extract design tokens, not placeholder assets.</span></div>
+          <div class="phase"><strong>Author page</strong><span>Write one production <code>docs/index.html</code> with semantic landmarks.</span></div>
+          <div class="phase"><strong>Disable Jekyll</strong><span>Add <code>docs/.nojekyll</code> so Pages serves files exactly.</span></div>
+          <div class="phase"><strong>Enable Pages</strong><span>Configure GitHub Pages for <code>main</code> and the <code>/docs</code> folder.</span></div>
+          <div class="phase"><strong>Commit and push</strong><span>Ship the static page through git, with a PR fallback if main is protected.</span></div>
+          <div class="phase"><strong>Verify live</strong><span>Check latest build status, HTTP 200, and expected content on the live URL.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" aria-labelledby="install-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">Install</p>
+          <h2 id="install-title">Drop the skill into your agent runtime.</h2>
+          <p class="section-copy">Requires Stitch MCP authentication, <code>gh</code> CLI auth, and push access to the target repository.</p>
+        </div>
+        <div class="install-grid">
+          <article class="card code-card">
+            <h3>Claude Code</h3>
+            <p>User-level skill directory.</p>
+            <pre><code>git clone https://github.com/cskwork/stitch-landing-skill \
+  ~/.claude/skills/stitch-landing</code></pre>
+          </article>
+          <article class="card code-card">
+            <h3>Hermes</h3>
+            <p>Category-based skill layout.</p>
+            <pre><code>git clone https://github.com/cskwork/stitch-landing-skill \
+  ~/.hermes/skills/productivity/stitch-landing</code></pre>
+          </article>
+          <article class="card code-card">
+            <h3>Codex CLI</h3>
+            <p>Same SKILL.md format; copy or symlink.</p>
+            <pre><code>cp -R stitch-landing-skill \
+  ~/.codex/skills/stitch-landing</code></pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="verify" aria-labelledby="verify-title">
+      <div class="wrap proof">
+        <div class="section-head">
+          <p class="section-kicker">Verification first</p>
+          <h2 id="verify-title">The deliverable is not done until the URL is live.</h2>
+          <p class="section-copy">
+            The included helper scripts make Pages setup and live checks repeatable for each target repo.
+          </p>
+        </div>
+        <div class="terminal" aria-label="Verification commands">
+          <div class="terminal-bar">
+            <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <span>verify-pages.sh</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="prompt">$</span> ./scripts/enable-pages.sh owner/repo</div>
+            <div><span class="success">source:</span> main /docs</div>
+            <div><span class="prompt">$</span> ./scripts/verify-pages.sh owner/repo "&lt;title&gt;"</div>
+            <div><span class="success">pages build:</span> built</div>
+            <div><span class="success">live:</span> https://owner.github.io/repo/</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="deliverables-title">
+      <div class="wrap">
+        <div class="repo-strip">
+          <div>
+            <p class="section-kicker">Reference</p>
+            <h2 id="deliverables-title" style="font-size: clamp(28px, 4vw, 42px);">Study the source and example output.</h2>
+          </div>
+          <div class="hero-actions" style="margin-top:0">
+            <a class="button primary" href="https://github.com/cskwork/stitch-landing-skill/blob/main/SKILL.md">Read SKILL.md</a>
+            <a class="button" href="https://github.com/cskwork/stitch-landing-skill/blob/main/examples/oh-my-symphony-index.html">View example HTML</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>MIT licensed. Built for agent-driven GitHub Pages launches.</span>
+      <span><a href="https://github.com/cskwork/stitch-landing-skill">github.com/cskwork/stitch-landing-skill</a></span>
+    </div>
+  </footer>
+</body>
+</html>
