@@ -17,17 +17,15 @@ owner="${repo%%/*}"
 name="${repo##*/}"
 url="https://${owner}.github.io/${name}/"
 
-existing=$(gh api "repos/${repo}/pages" 2>/dev/null || echo "")
-
-if [[ -z "$existing" ]]; then
+if existing=$(gh api "repos/${repo}/pages" --jq '{html_url, source, status}' 2>/dev/null); then
+  echo "[enable-pages] Pages already enabled:"
+  echo "$existing"
+else
   echo "[enable-pages] Pages not yet enabled — POST /pages with main:/docs"
   gh api -X POST "repos/${repo}/pages" \
     -f 'source[branch]=main' \
     -f 'source[path]=/docs' \
     --jq '{html_url, source, status}'
-else
-  echo "[enable-pages] Pages already enabled:"
-  echo "$existing" | gh api --include - 2>/dev/null || echo "$existing"
 fi
 
 echo
