@@ -1,0 +1,16 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "stitch-landing",
+  "description": "Turn any project README into a deployed GitHub Pages landing page via Stitch MCP. Use when the user asks to \"make a land",
+  "owner": {
+    "name": "cskwork"
+  },
+  "plugins": [
+    {
+      "name": "stitch-landing",
+      "description": "Turn any project README into a deployed GitHub Pages landing page via Stitch MCP. Use when the user asks to \"make a land",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

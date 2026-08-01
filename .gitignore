@@ -1,6 +1,6 @@
 .DS_Store
-*.swp
-*.swo
-tmp_workspaces/
-.omc/
+__pycache__/
+*.py[cod]
+evals/results/
 node_modules/
+dist/

@@ -1,0 +1,34 @@
+{
+  "name": "stitch-landing",
+  "version": "0.1.0",
+  "description": "Turn any project README into a deployed GitHub Pages landing page via Stitch MCP. Use when the user asks to \"make a landing page\", \"deploy on GitHub Pages\", \"use Stitch to design a landing\", or wants a hosted marketing/preview page generated from existing repo context. Triggers — \"landing page\", \"github pages\", \"stitch landing\", \"ship a landing\", \"랜딩 페이지\", \"랜딩 만들어\", \"stitch로 디자인\".",
+  "author": {
+    "name": "cskwork",
+    "url": "https://github.com/cskwork"
+  },
+  "homepage": "https://github.com/cskwork/stitch-landing",
+  "repository": "https://github.com/cskwork/stitch-landing",
+  "license": "MIT",
+  "keywords": [
+    "stitch-landing",
+    "skill",
+    "claude-code",
+    "codex"
+  ],
+  "skills": "./",
+  "interface": {
+    "displayName": "Stitch Landing",
+    "shortDescription": "Turn any project README into a deployed GitHub Pages landing page via Stitch MCP",
+    "longDescription": "Turn any project README into a deployed GitHub Pages landing page via Stitch MCP. Use when the user asks to \"make a landing page\", \"deploy on GitHub Pages\", \"use Stitch to design a landing\", or wants a hosted marketing/preview page generated from existing repo context. Triggers — \"landing page\", \"github pages\", \"stitch landing\", \"ship a landing\", \"랜딩 페이지\", \"랜딩 만들어\", \"stitch로 디자인\".",
+    "developerName": "cskwork",
+    "category": "Productivity",
+    "capabilities": [
+      "Instructions"
+    ],
+    "websiteURL": "https://github.com/cskwork/stitch-landing",
+    "defaultPrompt": [
+      "Use stitch-landing for this task."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
