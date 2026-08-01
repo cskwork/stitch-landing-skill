@@ -6,7 +6,7 @@
 ### Install
 
 ```bash
-claude plugin marketplace add cskwork/stitch-landing
+claude plugin marketplace add cskwork/stitch-landing-skill
 claude plugin install stitch-landing@stitch-landing
 ```
 
@@ -39,7 +39,7 @@ claude plugin marketplace remove stitch-landing
 ### Install
 
 ```bash
-codex plugin marketplace add cskwork/stitch-landing --ref main
+codex plugin marketplace add cskwork/stitch-landing-skill --ref main
 codex plugin add stitch-landing@stitch-landing
 ```
 
@@ -66,14 +66,14 @@ codex plugin marketplace remove stitch-landing
 ### Install (extension, always-on)
 
 ```bash
-gemini extensions install https://github.com/cskwork/stitch-landing
+gemini extensions install https://github.com/cskwork/stitch-landing-skill
 ```
 
 ### Install (command, opt-in)
 
 ```bash
 mkdir -p ~/.gemini/commands
-curl -fsSL https://raw.githubusercontent.com/cskwork/stitch-landing/main/skills/stitch-landing/agents/gemini.toml \
+curl -fsSL https://raw.githubusercontent.com/cskwork/stitch-landing-skill/main/skills/stitch-landing-skill/agents/gemini.toml \
   -o ~/.gemini/commands/stitch-landing.toml
 ```
 
@@ -99,8 +99,8 @@ gemini extensions uninstall stitch-landing
 ### Install
 
 ```bash
-npx skills add cskwork/stitch-landing
-npx skills add cskwork/stitch-landing -g
+npx skills add cskwork/stitch-landing-skill
+npx skills add cskwork/stitch-landing-skill -g
 ```
 
 Type `/stitch-landing` in a new agent chat.
@@ -131,7 +131,7 @@ npx skills remove stitch-landing
 ### Install
 
 ```bash
-agy plugin install https://github.com/cskwork/stitch-landing
+agy plugin install https://github.com/cskwork/stitch-landing-skill
 ```
 
 ### Verify

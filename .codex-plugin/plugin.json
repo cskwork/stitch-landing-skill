@@ -6,8 +6,8 @@
     "name": "cskwork",
     "url": "https://github.com/cskwork"
   },
-  "homepage": "https://github.com/cskwork/stitch-landing",
-  "repository": "https://github.com/cskwork/stitch-landing",
+  "homepage": "https://github.com/cskwork/stitch-landing-skill",
+  "repository": "https://github.com/cskwork/stitch-landing-skill",
   "license": "MIT",
   "keywords": [
     "stitch-landing",
@@ -25,7 +25,7 @@
     "capabilities": [
       "Instructions"
     ],
-    "websiteURL": "https://github.com/cskwork/stitch-landing",
+    "websiteURL": "https://github.com/cskwork/stitch-landing-skill",
     "defaultPrompt": [
       "Use stitch-landing for this task."
     ],
