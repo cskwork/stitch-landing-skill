@@ -1,6 +1,6 @@
 ---
 name: stitch-landing
-description: Turn any project README into a deployed GitHub Pages landing page via Stitch MCP. Use when the user asks to "make a landing page", "deploy on GitHub Pages", "use Stitch to design a landing", or wants a hosted marketing/preview page generated from existing repo context. Triggers — "landing page", "github pages", "stitch landing", "ship a landing", "랜딩 페이지", "랜딩 만들어", "stitch로 디자인".
+description: stitch-landing — README to GitHub Pages landing. Use when: "landing page", "github pages", "랜딩 페이지".
 ---
 
 # stitch-landing
