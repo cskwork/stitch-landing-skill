@@ -1,7 +1,7 @@
 {
   "name": "stitch-landing",
   "version": "0.1.0",
-  "description": "Turn any project README into a deployed GitHub Pages landing page via Stitch MCP. Use when the user asks to \"make a landing page\", \"deploy on GitHub Pages\", \"use Stitch to design a landing\", or wants a hosted marketing/preview page generated from existing repo context. Triggers — \"landing page\", \"github pages\", \"stitch landing\", \"ship a landing\", \"랜딩 페이지\", \"랜딩 만들어\", \"stitch로 디자인\".",
+  "description": "Turn any project README into a deployed GitHub Pages landing page via Stitch MCP. Use when the user asks to \"make a...",
   "author": {
     "name": "cskwork",
     "url": "https://github.com/cskwork"
