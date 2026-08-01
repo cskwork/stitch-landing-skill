@@ -1,4 +1,4 @@
 # stitch-landing
 
-@./SKILL.md
+@./skills/stitch-landing/SKILL.md
 
