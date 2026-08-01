@@ -1,3 +1,5 @@
+<p align="center"><img src="logo.png" width="120" alt="logo" /></p>
+
 # stitch-landing-skill
 
 A Claude Code / Hermes skill that turns any project README into a deployed GitHub Pages landing page in one session, using **Stitch MCP** for the design pass and **Tailwind CDN** for production.
