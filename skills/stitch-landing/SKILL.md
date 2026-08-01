@@ -1,6 +1,7 @@
 ---
 name: stitch-landing
-description: stitch-landing — README to GitHub Pages landing. Use when: "landing page", "github pages", "랜딩 페이지".
+description: 'stitch-landing — README to GitHub Pages landing. Use when: "landing page", "github pages", "랜딩 페이지".'
+
 ---
 
 # stitch-landing
